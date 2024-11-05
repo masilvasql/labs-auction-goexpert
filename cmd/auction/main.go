@@ -2,6 +2,7 @@ package main
 
 import (
 	"context"
+	"fmt"
 	"fullcycle-auction_go/configuration/database/mongodb"
 	"fullcycle-auction_go/internal/infra/api/web/controller/auction_controller"
 	"fullcycle-auction_go/internal/infra/api/web/controller/bid_controller"
@@ -12,10 +13,11 @@ import (
 	"fullcycle-auction_go/internal/usecase/auction_usecase"
 	"fullcycle-auction_go/internal/usecase/bid_usecase"
 	"fullcycle-auction_go/internal/usecase/user_usecase"
+	"log"
+
 	"github.com/gin-gonic/gin"
 	"github.com/joho/godotenv"
 	"go.mongodb.org/mongo-driver/mongo"
-	"log"
 )
 
 func main() {
@@ -44,6 +46,7 @@ func main() {
 	router.GET("/bid/:auctionId", bidController.FindBidByAuctionId)
 	router.GET("/user/:userId", userController.FindUserById)
 
+	fmt.Println("Server running on port 8080")
 	router.Run(":8080")
 }
 
@@ -53,6 +56,7 @@ func initDependencies(database *mongo.Database) (
 	auctionController *auction_controller.AuctionController) {
 
 	auctionRepository := auction.NewAuctionRepository(database)
+	go auctionRepository.StartAuctionCloser(context.Background())
 	bidRepository := bid.NewBidRepository(database, auctionRepository)
 	userRepository := user.NewUserRepository(database)
 

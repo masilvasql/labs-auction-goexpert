@@ -1,0 +1,30 @@
+POST http://localhost:8080/auction
+Content-Type: application/json
+
+{
+    "product_name": "Celular",
+    "category": "Electronics",
+    "description": "A laptop with 8GB RAM and 1TB storage 2",
+    "condition": 1
+}
+
+###
+GET http://localhost:8080/auction?status=0&category=Electronics&productName=Celular
+Content-Type: application/json
+
+###
+
+GET http://localhost:8080/auction/b66301db-db75-4129-96d4-6da3d6f6a354
+Content-Type: application/json
+
+
+
+### BID
+POST http://localhost:8080/bid
+Content-Type: application/json
+
+{
+    "user_id": "8bbd6e8a-3718-47cf-a587-0f5660373ccb",
+    "auction_id": "b66301db-db75-4129-96d4-6da3d6f6a354",
+    "amount": 100
+}

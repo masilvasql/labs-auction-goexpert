@@ -2,6 +2,7 @@ package bid
 
 import (
 	"context"
+	"fmt"
 	"fullcycle-auction_go/configuration/logger"
 	"fullcycle-auction_go/internal/entity/auction_entity"
 	"fullcycle-auction_go/internal/entity/bid_entity"
@@ -72,6 +73,7 @@ func (bd *BidRepository) CreateBid(
 			if okEndTime && okStatus {
 				now := time.Now()
 				if auctionStatus == auction_entity.Completed || now.After(auctionEndTime) {
+					fmt.Println("Auction is completed")
 					return
 				}
 
